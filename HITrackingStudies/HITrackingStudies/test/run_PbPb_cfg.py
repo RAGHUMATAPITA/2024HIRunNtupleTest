@@ -1,7 +1,7 @@
 ###Options to run
 '''
 To run it, please, do e.g.:
-cmsRun run_PbPb_cfg_MCRecoDebug.py sample="MC_RecoDebug" n=100 usePixelTrks=False  runOverStreams=False 
+cmsRun run_PbPb_cfg.py sample="MC_RecoDebug" n=100 usePixelTrks=False  runOverStreams=False 
 
 sample="MC_RecoDebug","MC_Reco_AOD","MC_MiniAOD","Data_Reco_AOD","Data_MiniAOD"
 n=integer number of events
