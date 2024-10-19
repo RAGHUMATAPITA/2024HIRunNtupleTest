@@ -1,7 +1,7 @@
 ###Options to run
 '''
 To run it, please, do e.g.:
-cmsRun run_PbPb_cfg_MCRecoDebug.py sample="MC_RecoDebug" n=100 usePixelTrks=False  runOverStreams=False 
+cmsRun run_PbPb_cfg.py sample="MC_RecoDebug" n=100 usePixelTrks=False  runOverStreams=False 
 
 sample="MC_RecoDebug","MC_Reco_AOD","MC_MiniAOD","Data_Reco_AOD","Data_MiniAOD"
 n=integer number of events
@@ -67,6 +67,8 @@ if options.sample == "Data_Reco_AOD" and options.runOverStreams==True :
     from pbpb import pbpb_data_reco_aod_streams as pbpb
 if options.sample == "Data_MiniAOD":
     from pbpb import pbpb_data_miniaod as pbpb
+if options.sample == "Data_miniAOD" and options.runOverStreams==True :
+    from pbpb import pbpb_data_miniaod_streams as pbpb
 if options.sample == "MC_MiniAOD":
     from pbpb import pbpb_mc_miniaod as pbpb
 
@@ -80,7 +82,8 @@ process.options = cms.untracked.PSet(
 )
 
 #process.TFileService = cms.Service("TFileService", fileName = cms.string('2023_Hydjet_MC_MAOD_PixelTracks.root'))
-process.TFileService = cms.Service("TFileService", fileName = cms.string('2023_data_MAOD_GeneralTracks.root'))
+#process.TFileService = cms.Service("TFileService", fileName = cms.string('2023_data_MAOD_GeneralTracks.root'))
+process.TFileService = cms.Service("TFileService", fileName = cms.string('2024_data_Rehearsal_MAOD_GeneralTracks.root'))
 
 process.load("SimTracker.TrackAssociation.trackingParticleRecoTrackAsssociation_cfi")
 process.tpRecoAssocGeneralTracks = process.trackingParticleRecoTrackAsssociation.clone()

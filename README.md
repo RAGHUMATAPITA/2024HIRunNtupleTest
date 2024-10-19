@@ -4,9 +4,9 @@ ssh -XY username@lxplus8.cern.ch
 
 voms-proxy-init -voms cms
 
-cmsrel CMSSW_14_1_1
+cmsrel CMSSW_14_1_3
 
-cd CMSSW_14_1_1/src
+cd CMSSW_14_1_3/src
 
 cmsenv
 

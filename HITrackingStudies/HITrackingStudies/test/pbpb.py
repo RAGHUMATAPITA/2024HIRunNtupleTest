@@ -7,8 +7,16 @@ pbpb_mc_recodebug=[
     'root://cmsxrootd.fnal.gov//store/user/sarteaga/MinBias_Drum5F_5p36TeV_hydjet/MinBias_PbPb_5p36TeV_Hydjet_RECODEBUG_132X_v9/241010_191615/0000/MinBias_PbPb_5p36TeV_Hydjet_132X_v9_RECODEBUG_5.root'
 
     #~~~~~~~~~~~~~For 2024~~~~~~~~~~~~~~~
-    #'file:/eos/cms/store/group/phys_heavyions/cbennett/crabSubmit_RECODEBUG_HYDJET_5360GeV_141X_2024-09-23/HYDJET_5360GeV_141X/HYDJET_5360GeV_RECODEBUG_141X_2024-09-23/240923_194854/0000/HYDJET_5360GeV_RECODEBUG_7.root',
+    'root://store/group/phys_heavyions/cbennett/crabSubmit_RECODEBUG_updatedEra_updateGT_HYDJET_5360GeV_141X_2024-10-14/HYDJET_5360GeV_141X/HYDJET_5360GeV_RECODEBUG_updatedEra_updateGT_141X_2024-10-14/241015_033632/0000/HYDJET_5360GeV_RECODEBUG_1.root',
+    'root://store/group/phys_heavyions/cbennett/crabSubmit_RECODEBUG_updatedEra_updateGT_HYDJET_5360GeV_141X_2024-10-14/HYDJET_5360GeV_141X/HYDJET_5360GeV_RECODEBUG_updatedEra_updateGT_141X_2024-10-14/241015_033632/0000/HYDJET_5360GeV_RECODEBUG_2.root',
+    'root://store/group/phys_heavyions/cbennett/crabSubmit_RECODEBUG_updatedEra_updateGT_HYDJET_5360GeV_141X_2024-10-14/HYDJET_5360GeV_141X/HYDJET_5360GeV_RECODEBUG_updatedEra_updateGT_141X_2024-10-14/241015_033632/0000/HYDJET_5360GeV_RECODEBUG_3.root',
+    'root://store/group/phys_heavyions/cbennett/crabSubmit_RECODEBUG_updatedEra_updateGT_HYDJET_5360GeV_141X_2024-10-14/HYDJET_5360GeV_141X/HYDJET_5360GeV_RECODEBUG_updatedEra_updateGT_141X_2024-10-14/241015_033632/0000/HYDJET_5360GeV_RECODEBUG_4.root',
+    'root://store/group/phys_heavyions/cbennett/crabSubmit_RECODEBUG_updatedEra_updateGT_HYDJET_5360GeV_141X_2024-10-14/HYDJET_5360GeV_141X/HYDJET_5360GeV_RECODEBUG_updatedEra_updateGT_141X_2024-10-14/241015_033632/0000/HYDJET_5360GeV_RECODEBUG_5.root'
+    
 ]
+
+# use this if you are giving txt file as input
+#pbpb_mc_recodebug=open("HYDJET_5360GeV_RECODEBUG.txt", "r").readlines()  
 
 pbpb_mc_reco_aod=[
     #~~~~~~~~~~~~~For 2023~~~~~~~~~~~~~~~
@@ -32,12 +40,16 @@ pbpb_data_reco_aod=[
 
 pbpb_data_miniaod=[
     #~~~~~~~~~~~~~For 2023~~~~~~~~~~~~~~~
-    'root://cmsxrootd.fnal.gov//store/hidata/HIRun2023A/HIPhysicsRawPrime0/MINIAOD/PromptReco-v2/000/374/668/00000/06179488-b7e6-44f6-bec9-eb242a290ffd.root',
-    'root://cmsxrootd.fnal.gov//store/hidata/HIRun2023A/HIPhysicsRawPrime0/MINIAOD/PromptReco-v2/000/374/668/00000/119881a4-1fdd-4462-818e-55b3ab3962f5.root'
+    #'root://cmsxrootd.fnal.gov//store/hidata/HIRun2023A/HIPhysicsRawPrime0/MINIAOD/PromptReco-v2/000/374/668/00000/06179488-b7e6-44f6-bec9-eb242a290ffd.root',
+    #'root://cmsxrootd.fnal.gov//store/hidata/HIRun2023A/HIPhysicsRawPrime0/MINIAOD/PromptReco-v2/000/374/668/00000/119881a4-1fdd-4462-818e-55b3ab3962f5.root'
 
     #~~~~~~~~~~~~~For 2024~~~~~~~~~~~~~~~
+    'root://cmsxrootd.fnal.gov//store/backfill/1/hidata/Tier0_HIREPLAY_2024/HIEphemeralZeroBias0/MINIAOD/PromptReco-v17225534/000/374/951/00000/0ae924fb-550b-4a14-b046-e6879e025dbc.root'
 ]
 
 pbpb_data_reco_aod_streams=[
     'file:/eos/cms/store/t0streamer/Data/HIPhysicsMinimumBias0/000/325/174/run325174_ls0001_streamHIPhysicsMinimumBias0_StorageManager.dat'
+]
+
+pbpb_data_miniaod_streams=[
 ]
