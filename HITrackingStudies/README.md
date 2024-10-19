@@ -27,7 +27,7 @@ For efficiency and fake rate use:
 HITrackingStudies/HITrackingStudies/test/plottingMacro/plotHistXXX.C
 
 
-~~~~~~~~Making performance tree 
+***Making performance tree 
 navigate to the analyzer directory:
 
 cd HITrackingStudies/test/
@@ -41,7 +41,7 @@ cmsRun run_PbPb_cfg.py sample="Data_MiniAOD" n=100 runOverStreams=False >& OutPu
 Output file is trk.root
 
 
-~~~~~~~~~~~~~~~For doing control plots run
+***For doing control plots run
 
 root -l -b -q macro_control_plots_OneSample.C
 
@@ -51,7 +51,7 @@ root -l -b -q macro_control_plots_ThreeSamples.C
 
 root -l -b -q macro_control_plots_signal_vs_fake_MCrecodebugOnly.C // Only for RECODEBUG sample
 
-~~~~~~~~~~~~~~~ Plotting efficiency/fake
+******** Plotting efficiency/fake
 
 In the 'plottingMacro' directory from the above path:
 
