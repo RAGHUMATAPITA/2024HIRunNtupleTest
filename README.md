@@ -49,7 +49,7 @@ root -l -b -q macro_control_plots_ThreeSamples.C
 
 root -l -b -q macro_control_plots_signal_vs_fake_MCrecodebugOnly.C // Only for RECODEBUG sample
 
-*** Plotting efficiency/fake***
+***Plotting efficiency/fake***
 
 In the 'plottingMacro' directory from the above path:
 
