@@ -35,11 +35,10 @@ edit run_PbPb_cfg.py to get the settings you want (the cuts are the most relevan
 
 One example:
 
-cmsRun run_PbPb_cfg.py sample="Data_MiniAOD" n=100 runOverStreams=False >& OutPut.txt &
-
-Output file is trk.root
+cmsRun run_PbPb_cfg.py sample="Data_MiniAOD" n=100 usePixelTrks=False runOverStreams=False >& OutPut.txt &
 
 ***For doing control plots run***
+Use the output file produced from cmsRun as input file
 
 root -l -b -q macro_control_plots_OneSample.C
 
@@ -50,6 +49,7 @@ root -l -b -q macro_control_plots_ThreeSamples.C
 root -l -b -q macro_control_plots_signal_vs_fake_MCrecodebugOnly.C // Only for RECODEBUG sample
 
 ***Plotting efficiency/fake***
+Use the output file produced from cmsRun as input file
 
 In the 'plottingMacro' directory from the above path:
 
