@@ -10,7 +10,7 @@ cd CMSSW_14_1_3/src
 
 cmsenv
 
-git clone git@github.com:RAGHUMATAPITA/2024HIRunNtupleTest.git
+git clone -b 14_1_3 git@github.com:RAGHUMATAPITA/2024HIRunNtupleTest.git .
 
 scram b -j 8
 
