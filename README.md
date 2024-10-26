@@ -38,7 +38,11 @@ One example:
 cmsRun run_PbPb_cfg.py sample="Data_MiniAOD" n=100 usePixelTrks=False runOverStreams=False >& OutPut.txt &
 
 ***For doing control plots run***
-Use the output file produced from cmsRun as input file
+Somehow, these macro are not working in CMSSW_14_1_X. 
+
+One can run this macro in CMSSW_13_X_X. You can use CMSSW_13_2_10 or 13_2_5_pacth1.
+
+Use the output file produced from cmsRun as input file to the following macro which can be found inside HITrackingStudies/HITrackingStudies/test/plottingMacro
 
 root -l -b -q macro_control_plots_OneSample.C
 
