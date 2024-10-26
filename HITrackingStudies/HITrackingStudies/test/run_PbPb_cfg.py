@@ -82,8 +82,9 @@ process.options = cms.untracked.PSet(
 )
 
 #process.TFileService = cms.Service("TFileService", fileName = cms.string('2023_Hydjet_MC_MAOD_PixelTracks.root'))
+process.TFileService = cms.Service("TFileService", fileName = cms.string('2023_Hydjet_MC_RecoDebug_GeneralTracks.root'))
 #process.TFileService = cms.Service("TFileService", fileName = cms.string('2023_data_MAOD_GeneralTracks.root'))
-process.TFileService = cms.Service("TFileService", fileName = cms.string('2024_data_Rehearsal_MAOD_GeneralTracks.root'))
+
 
 process.load("SimTracker.TrackAssociation.trackingParticleRecoTrackAsssociation_cfi")
 process.tpRecoAssocGeneralTracks = process.trackingParticleRecoTrackAsssociation.clone()
@@ -151,8 +152,8 @@ process.HITrackCorrections.vtxWeightParameters = cms.vdouble(0.0306789, 0.427748
 ###
 from Configuration.AlCa.GlobalTag import GlobalTag
 if (options.sample == "MC_MiniAOD" or options.sample == "MC_RecoDebug" or options.sample == "MC_Reco_AOD"):
-    #process.GlobalTag = GlobalTag(process.GlobalTag, '132X_mcRun3_2023_realistic_HI_v9', '') # for 2023 
-    process.GlobalTag = GlobalTag(process.GlobalTag, '141X_mcRun3_2024_realistic_HI_v5', '') # for 2024
+    process.GlobalTag = GlobalTag(process.GlobalTag, '132X_mcRun3_2023_realistic_HI_v9', '') # for 2023 
+    #process.GlobalTag = GlobalTag(process.GlobalTag, '141X_mcRun3_2024_realistic_HI_v5', '') # for 2024
     process.GlobalTag.snapshotTime = cms.string("9999-12-31 23:59:59.000")
     process.GlobalTag.toGet.extend([
         cms.PSet(record = cms.string("HeavyIonRcd"),
@@ -162,8 +163,8 @@ if (options.sample == "MC_MiniAOD" or options.sample == "MC_RecoDebug" or option
         ),
     ])
 if (options.sample == "Data_Reco_AOD" or options.sample == "Data_MiniAOD"):
-    #process.GlobalTag = GlobalTag(process.GlobalTag, '132X_dataRun3_Prompt_v7', '') # 2023
-    process.GlobalTag = GlobalTag(process.GlobalTag, '141X_dataRun3_Prompt_v3', '') # 2024
+    process.GlobalTag = GlobalTag(process.GlobalTag, '132X_dataRun3_Prompt_v7', '') # 2023
+    #process.GlobalTag = GlobalTag(process.GlobalTag, '141X_dataRun3_Prompt_v3', '') # 2024
     process.GlobalTag.snapshotTime = cms.string("9999-12-31 23:59:59.000")
     process.GlobalTag.toGet.extend([
         cms.PSet(record = cms.string("HeavyIonRcd"),
@@ -201,6 +202,7 @@ if (options.sample == "MC_Reco_AOD" or options.sample == "MC_MiniAOD" or options
         process.hiPixelTracks = process.unpackedTracksAndVertices.clone(
                 packedCandidates = cms.VInputTag("hiPixelTracks"),
                 packedCandidateNormChi2Map = cms.VInputTag(""),
+                secondaryVertices = ""
         )
         if options.usePixelTrks == True:
            process.anaTrack.trackSrc = 'hiPixelTracks'
