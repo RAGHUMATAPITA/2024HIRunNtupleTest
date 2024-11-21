@@ -422,7 +422,7 @@ HITrackCorrectionAnalyzer::passesTrackCuts(const reco::Track & track, const reco
    }
    if( count == 0 ) return false;
    
-   if(algo != 4) return false; // Raghu: check for different iteration
+   //if(algo != 4) return false; // Raghu: check for different iteration
    
    if(chi2n > chi2nMax_ ) return false;  
 
