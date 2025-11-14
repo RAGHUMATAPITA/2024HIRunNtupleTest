@@ -211,7 +211,7 @@ if (options.sample == "MC_Reco_AOD" or options.sample == "MC_MiniAOD" or options
         if options.usePixelTrks == True:
            process.anaTrack.trackSrc = 'hiPixelTracks'
            process.anaTrack.vertexSrc = cms.vstring(['hiPixelTracks'])
-           process.anaSeq = cms.Sequence(process.unpackedTracksAndVertices * process.hiPixelTracks * process.anaTrack)
+        process.anaSeq = cms.Sequence(process.unpackedTracksAndVertices * process.hiPixelTracks * process.anaTrack)
 
 ###trigger selection
 import HLTrigger.HLTfilters.hltHighLevel_cfi
