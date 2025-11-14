@@ -85,9 +85,9 @@ process.options = cms.untracked.PSet(
 #process.TFileService = cms.Service("TFileService", fileName = cms.string('2023_Hydjet_MC_RecoDebug_GeneralTracks.root'))
 #process.TFileService = cms.Service("TFileService", fileName = cms.string('2023_data_MAOD_GeneralTracks_nhits2Check_True.root'))
 #process.TFileService = cms.Service("TFileService", fileName = cms.string('2024_Run387853_data_Streamer_MAOD_GeneralTracks.root'))
-#process.TFileService = cms.Service("TFileService", fileName = cms.string('2024_Hydjet_MC_RecoDebug_GeneralTracks_GTV8_New.root'))
+process.TFileService = cms.Service("TFileService", fileName = cms.string('2024_HydjetMC_PixelTracks_MAOD.root'))
 #process.TFileService = cms.Service("TFileService", fileName = cms.string('2024_Data__PixelTracks_New.root')
-process.TFileService = cms.Service("TFileService", fileName = cms.string('HybridZS_2023Era_606_EvtFilter.root'))
+#process.TFileService = cms.Service("TFileService", fileName = cms.string('HybridZS_2023Era_606_EvtFilter.root'))
 
 process.load("SimTracker.TrackAssociation.trackingParticleRecoTrackAsssociation_cfi")
 process.tpRecoAssocGeneralTracks = process.trackingParticleRecoTrackAsssociation.clone()
@@ -212,7 +212,6 @@ if (options.sample == "MC_Reco_AOD" or options.sample == "MC_MiniAOD" or options
            process.anaTrack.trackSrc = 'hiPixelTracks'
            process.anaTrack.vertexSrc = cms.vstring(['hiPixelTracks'])
            process.anaSeq = cms.Sequence(process.unpackedTracksAndVertices * process.hiPixelTracks * process.anaTrack)
-        process.anaSeq = cms.Sequence(process.unpackedTracksAndVertices * process.anaTrack)
 
 ###trigger selection
 import HLTrigger.HLTfilters.hltHighLevel_cfi
@@ -239,7 +238,7 @@ process.eventFilter = cms.Sequence(
 '''
 
 process.p = cms.Path(
-    process.eventFilter *
+    #process.eventFilter *
     process.tpClusterProducer *
     process.quickTrackAssociatorByHits *
     process.tpRecoAssocGeneralTracks *
@@ -252,7 +251,7 @@ process.p = cms.Path(
 if (options.sample == "MC_Reco_AOD" or options.sample == "Data_Reco_AOD" or options.sample == "MC_MiniAOD" or options.sample == "Data_MiniAOD"):
     process.p = cms.Path(
         #process.eventFilter *
-        process.hltMB *
+        #process.hltMB *
         process.centralityBin *
         process.anaSeq
     )
