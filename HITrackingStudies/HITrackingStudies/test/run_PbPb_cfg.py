@@ -67,7 +67,7 @@ if options.sample == "Data_Reco_AOD" and options.runOverStreams==True :
     from pbpb import pbpb_data_reco_aod_streams as pbpb
 if options.sample == "Data_MiniAOD":
     from pbpb import pbpb_data_miniaod as pbpb
-if options.sample == "Data_miniAOD" and options.runOverStreams==True :
+if options.sample == "Data_MiniAOD" and options.runOverStreams==True :
     from pbpb import pbpb_data_miniaod_streams as pbpb
 if options.sample == "MC_MiniAOD":
     from pbpb import pbpb_mc_miniaod as pbpb
@@ -82,9 +82,12 @@ process.options = cms.untracked.PSet(
 )
 
 #process.TFileService = cms.Service("TFileService", fileName = cms.string('2023_Hydjet_MC_MAOD_PixelTracks.root'))
-process.TFileService = cms.Service("TFileService", fileName = cms.string('2023_Hydjet_MC_RecoDebug_GeneralTracks.root'))
-#process.TFileService = cms.Service("TFileService", fileName = cms.string('2023_data_MAOD_GeneralTracks.root'))
-
+#process.TFileService = cms.Service("TFileService", fileName = cms.string('2023_Hydjet_MC_RecoDebug_GeneralTracks.root'))
+#process.TFileService = cms.Service("TFileService", fileName = cms.string('2023_data_MAOD_GeneralTracks_nhits2Check_True.root'))
+#process.TFileService = cms.Service("TFileService", fileName = cms.string('2024_Run387853_data_Streamer_MAOD_GeneralTracks.root'))
+#process.TFileService = cms.Service("TFileService", fileName = cms.string('2024_Hydjet_MC_RecoDebug_GeneralTracks_GTV8_New.root'))
+#process.TFileService = cms.Service("TFileService", fileName = cms.string('2024_Data__PixelTracks_New.root')
+process.TFileService = cms.Service("TFileService", fileName = cms.string('HybridZS_2023Era_606_EvtFilter.root'))
 
 process.load("SimTracker.TrackAssociation.trackingParticleRecoTrackAsssociation_cfi")
 process.tpRecoAssocGeneralTracks = process.trackingParticleRecoTrackAsssociation.clone()
@@ -152,8 +155,9 @@ process.HITrackCorrections.vtxWeightParameters = cms.vdouble(0.0306789, 0.427748
 ###
 from Configuration.AlCa.GlobalTag import GlobalTag
 if (options.sample == "MC_MiniAOD" or options.sample == "MC_RecoDebug" or options.sample == "MC_Reco_AOD"):
-    process.GlobalTag = GlobalTag(process.GlobalTag, '132X_mcRun3_2023_realistic_HI_v9', '') # for 2023 
+    #process.GlobalTag = GlobalTag(process.GlobalTag, '132X_mcRun3_2023_realistic_HI_v9', '') # for 2023 
     #process.GlobalTag = GlobalTag(process.GlobalTag, '141X_mcRun3_2024_realistic_HI_v5', '') # for 2024
+    process.GlobalTag = GlobalTag(process.GlobalTag, '141X_mcRun3_2024_realistic_HI_v8', '') # for 2024
     process.GlobalTag.snapshotTime = cms.string("9999-12-31 23:59:59.000")
     process.GlobalTag.toGet.extend([
         cms.PSet(record = cms.string("HeavyIonRcd"),
@@ -163,8 +167,8 @@ if (options.sample == "MC_MiniAOD" or options.sample == "MC_RecoDebug" or option
         ),
     ])
 if (options.sample == "Data_Reco_AOD" or options.sample == "Data_MiniAOD"):
-    process.GlobalTag = GlobalTag(process.GlobalTag, '132X_dataRun3_Prompt_v7', '') # 2023
-    #process.GlobalTag = GlobalTag(process.GlobalTag, '141X_dataRun3_Prompt_v3', '') # 2024
+    #process.GlobalTag = GlobalTag(process.GlobalTag, '132X_dataRun3_Prompt_v7', '') # 2023
+    process.GlobalTag = GlobalTag(process.GlobalTag, '141X_dataRun3_Prompt_v3', '') # 2024
     process.GlobalTag.snapshotTime = cms.string("9999-12-31 23:59:59.000")
     process.GlobalTag.toGet.extend([
         cms.PSet(record = cms.string("HeavyIonRcd"),
@@ -207,28 +211,47 @@ if (options.sample == "MC_Reco_AOD" or options.sample == "MC_MiniAOD" or options
         if options.usePixelTrks == True:
            process.anaTrack.trackSrc = 'hiPixelTracks'
            process.anaTrack.vertexSrc = cms.vstring(['hiPixelTracks'])
-        process.anaSeq = cms.Sequence(process.unpackedTracksAndVertices * process.hiPixelTracks * process.anaTrack)
+           process.anaSeq = cms.Sequence(process.unpackedTracksAndVertices * process.hiPixelTracks * process.anaTrack)
+        process.anaSeq = cms.Sequence(process.unpackedTracksAndVertices * process.anaTrack)
 
 ###trigger selection
 import HLTrigger.HLTfilters.hltHighLevel_cfi
 process.hltMB = HLTrigger.HLTfilters.hltHighLevel_cfi.hltHighLevel.clone()
-process.hltMB.HLTPaths = ["HLT_HIMinimumBiasHF1AND*"] # for 2023
-#process.hltMB.HLTPaths = ["HLT_HIMinimumBiasHF1AND*"] # for 2024 #
+#process.hltMB.HLTPaths = ["HLT_HIMinimumBiasHF1AND*"] # for 2023
+process.hltMB.HLTPaths = ["HLT_HIMinimumBiasHF1AND*"] # for 2024 #
 process.hltMB.andOr = cms.bool(True)  # True = OR, False = AND between the HLT paths
 process.hltMB.throw = cms.bool(False) # throw exception on unknown path names
 
+'''
+# event analysis
+## it will work for AOD. For mAOD, offlinePrimaryVertices and path of hfCoincFilter_cff need to change
+#process.load('HeavyIonsAnalysis.EventAnalysis.clusterCompatibilityFilter_cfi')
+#process.load('HeavyIonsAnalysis.EventAnalysis.collisionEventSelection_cff')
+#process.primaryVertexFilter.src = cms.InputTag("offlinePrimaryVertices")
+#process.load('HeavyIonsAnalysis.Configuration.hfCoincFilter_cff')
+
+# Define the event selection sequence
+process.eventFilter = cms.Sequence(
+    process.hfCoincFilter2Th4 *
+    process.clusterCompatibilityFilter *
+    process.primaryVertexFilter 
+)
+'''
+
 process.p = cms.Path(
+    process.eventFilter *
     process.tpClusterProducer *
     process.quickTrackAssociatorByHits *
     process.tpRecoAssocGeneralTracks *
     process.centralityBin *
     process.hltMB *
-    process.HITrackCorrections *
-    process.anaSeq ## comment if you want to save only histograms
+    process.HITrackCorrections 
+    #process.anaSeq ## comment if you want to save only histograms
 )
 
 if (options.sample == "MC_Reco_AOD" or options.sample == "Data_Reco_AOD" or options.sample == "MC_MiniAOD" or options.sample == "Data_MiniAOD"):
     process.p = cms.Path(
+        #process.eventFilter *
         process.hltMB *
         process.centralityBin *
         process.anaSeq
