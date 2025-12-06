@@ -647,9 +647,10 @@ TrackAnalyzer::fillTracks(const edm::Event& iEvent, const edm::EventSetup& iSetu
 
     if(useQuality_ && etrk.quality(reco::TrackBase::qualityByName(qualityString_)) != 1) continue;
 
-    if(doDeDx_){
-      pev_.dedx[pev_.nTrk]=(*DeDxMap)[trackRef].dEdx();
-
+    if(doDeDx_) {
+      pev_.dedx[pev_.nTrk]=-1.;
+      if (DeDxMap.isValid() && DeDxMap->contains(trackRef.id()))
+        pev_.dedx[pev_.nTrk]=(*DeDxMap)[trackRef].dEdx();
     }
 	
     if(doDebug_){
