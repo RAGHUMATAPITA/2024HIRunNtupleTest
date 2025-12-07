@@ -1345,6 +1345,7 @@ void TrackAnalyzer::fillDescriptions(edm::ConfigurationDescriptions& description
    desc.add<bool>("doHighestPtVertex", true);
    desc.add<bool>("fillSimTrack", true);
    desc.add<bool>("doDeDx", false);
+   desc.add<edm::InputTag>("DeDxMap", {});
    desc.add<bool>("doDebug", false);
    desc.add<bool>("useQuality", false);
    desc.add<std::vector<string>>("qualityStrings", {"highPurity","tight","loose"});
