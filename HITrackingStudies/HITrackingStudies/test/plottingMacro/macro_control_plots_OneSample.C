@@ -5,7 +5,7 @@
 
 ///*** Important parameters
 //input file
-auto fileName = "trk.root";
+auto fileName = "/eos/cms/store/group/phys_heavyions/rpradhan/NtupleTest_2024Run/2023_data_MAOD_GeneralTracks.root";
 //General or pixel tracks
 bool runOnPixelTrks = false; //pixel tracks do not have HP flag set
 //pT cuts
@@ -15,8 +15,8 @@ float pT_max = 99999.9;
 bool selecAlgo = false; //if true will do all plots for a specific iteration (except N-1 plots), defined in the variable algoToPlot below. IMPORTANT: Please, use false for pixel tracks
 int algoToPlot = 22;
 //select centrality range (in 0 - 100% range) that want to see the control plots 
-int cent_min = 0;
-int cent_max = 80;
+int cent_min = 80;
+int cent_max = 81;
 
 ///Auxiliar functions
 
@@ -158,6 +158,8 @@ std::string cent_cut = "centrality>="+to_string(2*cent_min)+" && centrality<="+t
 
 auto treeName = "anaTrack/trackTree"; //tree name
 
+ROOT::EnableImplicitMT();
+ 
 // We read the tree from the file and create a RDataFrame object called "d"
 ROOT::RDataFrame d(treeName, fileName);
 
@@ -182,7 +184,8 @@ const unsigned int N_variables = 14; //Sequence: pt, eta, phi, nhits, dzSig, dxy
 std::string variable_name_all[N_variables]={"trkPt_all","trkEta_all","trkPhi_all","trkNHit_all","trkDzSig_all","trkDxySig_all","trkPtRes_all","trkChi2_all","trkAlgo_all","trkNHit_NminusOne_all","trkDzSig_NminusOne_all","trkDxySig_NminusOne_all","trkPtRes_NminusOne_all","trkChi2_NminusOne_all"}; //variables' name
 TString hist_name_all[N_variables]={"trkPt","trkEta","trkPhi","trkNHit","trkDzSig","trkDxySig","trkPtRes","trkChi2","trkAlgo","trkNHit_NminusOne","trkDzSig_NminusOne","trkDxySig_NminusOne","trkPtRes_NminusOne","trkChi2_NminusOne"}; //histograms' name
 TString hist_title_all[N_variables]={"p_{T} of HP tracks","#eta of HP tracks","#phi of HP tracks", "NHits of HP tracks", "DzSig of HP tracks", "DxySig of HP tracks", "Pt Resolution of HP tracks","#chi^{2}/ndf/nlayers of HP tracks","Algo of HP tracks","NHits with All Other Cuts","DzSig with All Other Cuts", "DxySig with All Other Cuts","Pt Resolution with All Other Cuts","#chi^{2}/ndf/nlayers with All Other Cuts"}; //histograms' title
-const float hist_Nbins[N_variables]= {300,100,100,50,100,100,100,100,30,50,100,100,100,100}; //Number of bins 
+//const float hist_Nbins[N_variables]= {300,100,100,50,100,100,100,100,30,50,100,100,100,100}; //Number of bins
+const int hist_Nbins[N_variables]= {300,100,100,50,100,100,100,100,30,50,100,100,100,100}; //Number of bins 
 const float hist_Xrange_min[N_variables]= {0,-3.5,-4.5,0,-30,-30,0,0,0,0,-30,-30,0,0}; //Minimum value of the x-axis range
 const float hist_Xrange_max[N_variables]= {30,3.5,4.5,50,30,30,0.3,1,30,50,30,30,0.3,1}; //Maximum value of the x-axis range
 TString hist_XaxisTitle[N_variables]={"p_{T} (GeV/c)","#eta","#phi","Number of Hits", "dZ/#sigma_{dZ}", "dXY/#sigma_{dXY}","p_{T}Err/p_{T}","#chi^{2}/ndf/nlayers","Algo","Number of Hits","dZ/#sigma_{dZ}", "dXY/#sigma_{dXY}","p_{T}Err/p_{T}","#chi^{2}/ndf/nlayers"}; //Title of x-axis
@@ -200,10 +203,16 @@ TCanvas tc("tc","tc",500,500); //ROOT TCanvas to plot the variables - it will be
 
 gSystem->Exec("mkdir -p ControlPlotsOneSample"); //Directory to save the histograms
 
+ std::cout << "Entries in d_select: " << d_select.Count().GetValue() << std::endl;
+ 
 for (unsigned int i=0; i<N_variables; i++){
 
+  std::cout << "Processing: " << hist_name_all[i] <<"  "<<variable_name_all[i]<< std::endl;
    //Book histograms		
    auto h_all = d_select.Histo1D(TH1D(hist_name_all[i],hist_title_all[i]+Form(", %d-%d",cent_min,cent_max)+"%",hist_Nbins[i],hist_Xrange_min[i],hist_Xrange_max[i]),variable_name_all[i]);
+   //auto h_all = d_select.Histo1D(TH1D{hist_name_all[i], hist_title_all[i] + Form(", %d-%d", cent_min, cent_max) + "%", hist_Nbins[i], hist_Xrange_min[i], hist_Xrange_max[i]}, variable_name_all[i]);
+  //auto h_all = d_select.Histo1D({hist_name_all[i], hist_title_all[i] + Form(", %d-%d", cent_min, cent_max) + "%", hist_Nbins[i], hist_Xrange_min[i], hist_Xrange_max[i]}, variable_name_all[i]);
+  
    h_all->GetYaxis()->SetTitle(yaxis_label1);
    h_all->GetYaxis()->SetTitleOffset(1.4);
    h_all->GetXaxis()->SetTitle(hist_XaxisTitle[i]);
@@ -211,18 +220,20 @@ for (unsigned int i=0; i<N_variables; i++){
    h_all->SetMarkerColor(1);
    h_all->SetLineWidth(2);
    h_all->GetYaxis()->SetRangeUser(hist_Yrange_min[i], hist_Yrange_max[i]);
-   
+
    tc.cd(1);
    gPad->SetLogy(); //use log scale in y-axis
    gPad->SetTickx(1); 
    gPad->SetTicky(1);
    h_all->Draw();
-   gPad->Update();     
+   gPad->Update();
+   
    TPaveStats *st_all = (TPaveStats*)h_all->FindObject("stats"); //To adjust the position of the Statistics box
    st_all->SetY1NDC(0.75);
    st_all->SetY2NDC(0.90);
    st_all->SetX1NDC(0.80);
    st_all->SetX2NDC(1.00);
    tc.Print("ControlPlotsOneSample/"+fig_name[i]); //save Canvas in a PDF file...we can change format if needed PNG, JPG, ..etc...
+      
  }
 }

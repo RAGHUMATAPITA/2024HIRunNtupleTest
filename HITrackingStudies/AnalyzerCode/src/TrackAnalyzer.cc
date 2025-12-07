@@ -647,9 +647,10 @@ TrackAnalyzer::fillTracks(const edm::Event& iEvent, const edm::EventSetup& iSetu
 
     if(useQuality_ && etrk.quality(reco::TrackBase::qualityByName(qualityString_)) != 1) continue;
 
-    if(doDeDx_){
-      pev_.dedx[pev_.nTrk]=(*DeDxMap)[trackRef].dEdx();
-
+    if(doDeDx_) {
+      pev_.dedx[pev_.nTrk]=-1.;
+      if (DeDxMap.isValid() && DeDxMap->contains(trackRef.id()))
+        pev_.dedx[pev_.nTrk]=(*DeDxMap)[trackRef].dEdx();
     }
 	
     if(doDebug_){
@@ -1344,6 +1345,7 @@ void TrackAnalyzer::fillDescriptions(edm::ConfigurationDescriptions& description
    desc.add<bool>("doHighestPtVertex", true);
    desc.add<bool>("fillSimTrack", true);
    desc.add<bool>("doDeDx", false);
+   desc.add<edm::InputTag>("DeDxMap", {});
    desc.add<bool>("doDebug", false);
    desc.add<bool>("useQuality", false);
    desc.add<std::vector<string>>("qualityStrings", {"highPurity","tight","loose"});
